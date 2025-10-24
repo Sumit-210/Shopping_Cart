@@ -1,5 +1,6 @@
 package com.shopping;
 
+import java.util.*;
 import java.util.Scanner;
 
 import jakarta.persistence.EntityManager;
@@ -10,6 +11,89 @@ import jakarta.persistence.Persistence;
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 	static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("vikas");
 	static Scanner sc = new Scanner(System.in);
+
+	public void userLog() {
+		while (true) {
+			System.out.println("Enter the choice");
+			System.out.println("1)Add User\n\n 2)Update User\n\n3)View Products\n\n4)Exit");
+
+			int ch = sc.nextInt();
+			switch (ch) {
+			case 1:
+				addUser();
+				break;
+			case 2:
+				updateUser();
+				break;
+			case 3:
+				displayAllProducts();
+				break;
+			case 4:
+				return;
+			default:
+			    System.out.println("Invalid choice. Please try again.");
+			    break;
+
+			}
+		}
+
+	}
+
+	public void adminLog() {
+		while (true) {
+			System.out.println("Enter the choice");
+			System.out.println("1)Delete Customer\n\n2)Delete Product\n\n3)View All Users\n\n4)View All Products\n\n"
+					+ "5)View a uesr\n\n6)View a Product\n\n7)Exit");
+			int ch = sc.nextInt();
+			switch (ch) {
+			case 1:
+				deleteUser();
+				break;
+			case 2:
+				deleteProduct();
+				break;
+			case 3:
+				displayAllUser();
+				break;
+			case 4:
+				displayAllProducts();
+				break;
+			case 5:
+				displayUser();
+				break;
+			case 6:
+				displayProduct();
+				break;
+			case 7:
+				return;
+			default:
+			    System.out.println("Invalid choice. Please try again.");
+			    break;
+
+			}
+
+		}
+	}
+
+	public void vendorLog() {
+		while(true) {
+			System.out.println("Enter the choice");
+			System.out.println("1)Add Product\n\n2)Update Product\n\n3)Exit");
+			int ch = sc.nextInt();
+			switch (ch) {
+			case 1:
+				addProduct();
+			case 2:
+				deleteProduct();
+			case 3:
+				return;
+			default:
+			    System.out.println("Invalid choice. Please try again.");
+			    break;
+
+			}
+		}
+	}
 
 	public void addUser() {
 
@@ -92,10 +176,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			user.setRole(sc.nextLine());
 			break;
 		case 6:
-			System.exit(0);
+			return;
 
 		default:
-			throw new IllegalArgumentException("Unexpected value: " + ch);
+		    System.out.println("Invalid choice. Please try again.");
+		    break;
+
 		}
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
@@ -120,6 +206,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		System.out.println("Password      - " + user.getPassword());
 		System.out.println("Role          - " + user.getRole());
 
+	}
+
+	public void displayAllUser() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		List<User> user = entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+		for (User u : user) {
+			System.out.println("Name          - " + u.getName());
+			System.out.println("Email         - " + u.getEmail());
+			System.out.println("Phone Number  - " + u.getPhone());
+			System.out.println("Password      - " + u.getPassword());
+			System.out.println("Role          - " + u.getRole());
+		}
 	}
 
 	public void addProduct() {
@@ -205,7 +303,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			return;
 		}
 		default:
-			throw new IllegalArgumentException("Unexpected value: " + ch);
+		    System.out.println("Invalid choice. Please try again.");
+		    break;
+
 		}
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
@@ -229,5 +329,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		System.out.println("Category      - " + product.getCategory());
 		System.out.println("Quantity      - " + product.getQuantity());
 
+	}
+
+	public void displayAllProducts() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		List<Product> product = entityManager.createQuery("SELECT p FROM Product p", Product.class).getResultList();
+		for (Product p : product) {
+			System.out.println("Name          - " + p.getName());
+			System.out.println("Price         - " + p.getPrice());
+			System.out.println("Category      - " + p.getCategory());
+			System.out.println("Quantity      - " + p.getQuantity());
+		}
 	}
 }

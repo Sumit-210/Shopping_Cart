@@ -8,44 +8,30 @@ public class ShoppingCartMain {
 
 	public static void main(String[] args) {
 
-		ShoppingCartService ShoppingCartService = new ShoppingCartServiceImpl();
+		ShoppingCartService shoppingCartService = new ShoppingCartServiceImpl();
 
 		while (true)
 
 		{
-			System.out.println("----Menu----");
-			System.out.println(
-					"1.Add_User\n\n2.Display_User\n\n3.Update_User\n\n4.Delete_User\n\n5.Add_Product\n\n6.Display_Product"
-					+ "\n\n7.Update_Product\n\n8.Delete_Product\n\n9.Exit");
+			System.out.println("----Please choose your log in type----");
+			System.out.println("1)User\n\n2)Admin\n\n3)Vendor\n\n4)Exit");
 			int ch = sc.nextInt();
 			switch (ch) {
 			case 1:
-				ShoppingCartService.addUser();
+				System.out.println("---You have selected : USER LOGIN ----");
+				shoppingCartService.userLog();
 				break;
 			case 2:
-				ShoppingCartService.displayUser();
+				System.out.println("---You have selected : ADMIN LOGIN ----");
+				shoppingCartService.adminLog();
 				break;
 			case 3:
-				ShoppingCartService.updateUser();
+				System.out.println("---You have selected : VENDOR LOGIN ----");
+				shoppingCartService.vendorLog();
 				break;
 			case 4:
-				ShoppingCartService.deleteUser();
-				break;
-			case 5:
-				ShoppingCartService.addProduct();
-				break;
-			case 6:
-				ShoppingCartService.displayProduct();
-				break;
-			case 7:
-				ShoppingCartService.updateProduct();
-				break;
-			case 8:
-				ShoppingCartService.deleteProduct();       
-				break;
-			case 9:
 				System.out.println("Exiting....");
-				return;
+				System.exit(0);
 
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + ch);
